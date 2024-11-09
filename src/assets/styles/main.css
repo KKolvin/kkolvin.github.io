@@ -1,0 +1,49 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: calc(16px + 3.5vw);
+    text-align: center;
+    margin-top: 9vw;
+    padding-bottom: 1vw;
+}
+
+.profile-holder {
+    margin: 3rem;
+    padding: 18rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+}
+
+.profile-pic, .profile-heading{
+    object-fit: cover;
+    position: absolute;
+    bottom: auto;
+}
+
+.profile-pic {
+    filter: brightness(1.15);
+    height: auto;
+    max-height: 50vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-heading {
+    color: #f7c6c6;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: calc(10px + 8vw);
+    font-style: normal;
+    font-weight: 700;    
+    letter-spacing: 0.02em; 
+
+    margin-top: 50vh;
+}
