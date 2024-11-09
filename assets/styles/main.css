@@ -1,0 +1,11 @@
+h1 {
+    font-size: calc(16px + 3.5vw);
+    text-align: center;
+    margin-top: 9vw;
+    padding-bottom: 1vw;
+}
+
+.profile-pic {
+    object-fit: cover;
+    position: absolute;
+}
