@@ -1,21 +1,69 @@
-import React from 'react';
-import {Profile} from './components';
+import React, { useState, useEffect, useRef } from 'react';
+import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Profile, NeuralCanvas, ContactModal } from './components';
+import WorkPage from './pages/WorkPage';
 import './assets/styles/main.css';
 
-function App() {
+// Page order used to determine scroll direction
+const PAGE_ORDER = ['/', '/work'];
+
+function AnimatedRoutes() {
+    const location = useLocation();
+    const [displayLocation, setDisplayLocation] = useState(location);
+    const [stage, setStage] = useState('idle'); // 'idle' | 'exit' | 'enter'
+    const directionRef = useRef('forward');
+
+    const displayPathname = displayLocation.pathname;
+    useEffect(() => {
+        if (location.pathname === displayPathname) return;
+
+        const from = PAGE_ORDER.indexOf(displayPathname);
+        const to   = PAGE_ORDER.indexOf(location.pathname);
+        directionRef.current = to > from ? 'forward' : 'back';
+
+        setStage('exit');
+    }, [location.pathname, displayPathname]);
+
+    const handleAnimationEnd = () => {
+        if (stage === 'exit') {
+            setDisplayLocation(location);
+            setStage('enter');
+        } else if (stage === 'enter') {
+            setStage('idle');
+        }
+    };
+
+    const cls = stage === 'idle'
+        ? ''
+        : `page-${stage} page-${stage}--${directionRef.current}`;
+
     return (
-      <div>
-        <div><Profile/></div>
-
-        <div>
-          <a href="https://kkolvin.github.io/Static-Web-Birdy/index.html" target="_blank" rel="noopener noreferrer">
-          View Birdy</a>
+        <div className={`page-wrapper ${cls}`} onAnimationEnd={handleAnimationEnd}>
+            <Routes location={displayLocation}>
+                <Route path="/"     element={<Profile />} />
+                <Route path="/work" element={<WorkPage />} />
+            </Routes>
         </div>
-
-        <h2>Kewen Liu</h2>
-      </div>
     );
-  }
+}
 
+function App() {
+    const [contactOpen, setContactOpen] = useState(false);
+
+    return (
+        <HashRouter>
+            <NeuralCanvas />
+            <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
+            <main className="site-shell">
+                <header className="top-bar">
+                    <Link className="top-bar-label" to="/">Home</Link>
+                    <button className="top-bar-link" onClick={() => setContactOpen(true)}>Get in touch -&gt;</button>
+                </header>
+
+                <AnimatedRoutes />
+            </main>
+        </HashRouter>
+    );
+}
 
 export default App;
