@@ -14,10 +14,10 @@ function WorkPage() {
                     Hello, I'm Kolvin.
                 </h2>
                 <p className="work-intro-body">
-                    I studied Statistics and Computer Science at Boston University and am now an MSCS student at Georgia Tech.<br />
-                    My experience focuses on model quantization and optimization, inference acceleration,
-                    and improving the efficiency of RL post-training pipelines.<br />
-                    Currently, I'm also exploring the potential of agentic systems.
+                    I studied Statistics and Computer Science at <strong>Boston University</strong> and am now an MSCS student at <strong>Georgia Tech</strong>.<br />
+                    My experience focuses on <strong>model quantization and optimization</strong>, <strong>inference acceleration</strong>,
+                    and improving the efficiency of <strong>RL post-training pipelines</strong>.<br />
+                    Currently, I'm also exploring the potential of <strong>agentic systems</strong>.
                 </p>
                 <div className="work-intro-tags">
                     <span>Model Optimization</span>
