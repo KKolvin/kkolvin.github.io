@@ -16,8 +16,8 @@ const RETURN_LERP    = 0.045;  // position lerp per frame when returning (no bou
 const DAMPING        = 0.88;   // velocity damping during mouse attraction
 const MOUSE_LAG      = 0.065;  // vortex center lags behind real cursor
 const COLOR_FADE     = 0.022;  // colour lerp speed (~45 frames to fully transition)
-const LINE_ALPHA     = 0.28;
-const NODE_ALPHA     = 0.40;
+const LINE_ALPHA     = 0.45;
+const NODE_ALPHA     = 0.8;
 const LINE_ALPHA_HOT = 0.62;
 const NODE_ALPHA_HOT = 0.78;
 const NODE_R         = 1.7;
@@ -94,7 +94,6 @@ function NeuralCanvas() {
         const canvas = canvasRef.current;
         const ctx    = canvas.getContext('2d');
         let animId;
-        let paused = false;
         let W, H;
         const rawMouse = { x: -9999, y: -9999 };
         const vortex   = { x: -9999, y: -9999 };
@@ -223,16 +222,13 @@ function NeuralCanvas() {
                 ctx.fill();
             }
 
-            if (!paused) animId = requestAnimationFrame(draw);
+            animId = requestAnimationFrame(draw);
         }
 
         resize();
         draw();
 
-        const onModalOpen  = () => { paused = true;  cancelAnimationFrame(animId); };
-        const onModalClose = () => { if (paused) { paused = false; animId = requestAnimationFrame(draw); } };
-
-        const BLOCK   = 'h1, h2, h3, h4, h5, h6, p, img, .work-card, .top-bar, .scroll-down, .scroll-up, .top-bar-label, .work-intro-heading';
+        const BLOCK   = 'h1, h2, h3, h4, h5, h6, p, img, .work-card, .top-bar, .scroll-down, .scroll-up, .top-bar-label, .work-intro-tags';
         const onResize = () => resize();
         const onMove   = (e) => {
             if (e.target.closest(BLOCK)) {
@@ -247,16 +243,12 @@ function NeuralCanvas() {
 
         window.addEventListener('resize', onResize);
         window.addEventListener('mousemove', onMove);
-        window.addEventListener('canvas-pause', onModalOpen);
-        window.addEventListener('canvas-resume', onModalClose);
         document.addEventListener('mouseleave', onLeave);
 
         return () => {
             cancelAnimationFrame(animId);
             window.removeEventListener('resize', onResize);
             window.removeEventListener('mousemove', onMove);
-            window.removeEventListener('canvas-pause', onModalOpen);
-            window.removeEventListener('canvas-resume', onModalClose);
             document.removeEventListener('mouseleave', onLeave);
         };
     }, []);

@@ -429,6 +429,7 @@ a {
 }
 .page-enter--forward {
     animation: enterUp 0.48s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    pointer-events: none;
 }
 
 /* back: work → home (scroll down) */
@@ -438,6 +439,7 @@ a {
 }
 .page-enter--back {
     animation: enterDown 0.48s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    pointer-events: none;
 }
 
 @keyframes exitUp {
@@ -487,6 +489,11 @@ a {
     display: grid;
     gap: 0.4rem;
     min-height: 7.5rem;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     background: rgba(255, 255, 255, 0.55);
     backdrop-filter: blur(4px);
@@ -495,11 +502,13 @@ a {
 .work-card span {
     font-size: 1.25rem;
     font-weight: 600;
+    display: block;
 }
 
 .work-card small {
     font-size: 0.9rem;
     color: #666;
+    display: block;
 }
 
 .work-card:hover {
