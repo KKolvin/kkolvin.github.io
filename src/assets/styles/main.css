@@ -65,7 +65,7 @@ a {
     align-items: center;
     background-color: #5c3d2eb8;
     color: #fff;
-    padding: 13px 7.8vw;
+    padding: 10px max(calc(2vw + 2rem), calc((100vw - 1400px) / 2 + 2rem));
     font-size: 0.9rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -338,6 +338,20 @@ a {
     50% { opacity: 0; }
 }
 
+@keyframes scroll-dot-down {
+    0%   { transform: translateX(-50%) translateY(0); opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { transform: translateX(-50%) translateY(clamp(0.9rem, 2.4vmin, 1.65rem)); opacity: 0; }
+}
+
+@keyframes scroll-dot-up {
+    0%   { transform: translateX(-50%) translateY(0); opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { transform: translateX(-50%) translateY(calc(-1 * clamp(0.9rem, 2.4vmin, 1.65rem))); opacity: 0; }
+}
+
 /* ─── Scroll Down Indicator ─── */
 
 .scroll-down {
@@ -345,9 +359,11 @@ a {
     width: clamp(1.3rem, 2.5vmin, 1.6rem);
     height: clamp(2rem, 4.2vmin, 2.8rem);
     border-radius: 999px;
-    border: clamp(2px, 0.25vmin, 5px) solid var(--accent);
+    border: clamp(2px, 0.25vmin, 5px) solid #5c3d2e;
     opacity: 0.75;
     position: relative;
+    overflow: hidden;
+    margin-top: 1rem;
     transition: opacity 0.25s ease;
 }
 
@@ -360,7 +376,7 @@ a {
     width: clamp(0.25rem, 0.65vmin, 0.45rem);
     height: clamp(0.25rem, 0.65vmin, 0.45rem);
     border-radius: 50%;
-    background: var(--accent);
+    background: #5c3d2e;
     position: absolute;
     bottom: clamp(0.22rem, 0.55vmin, 0.38rem);
     left: 50%;
@@ -375,6 +391,15 @@ a {
                 opacity  0.2s ease;
 }
 
+@media (hover: none) {
+    .scroll-down-dot {
+        top: clamp(0.22rem, 0.55vmin, 0.38rem);
+        bottom: auto;
+        transition: none;
+        animation: scroll-dot-down 1.8s ease-in-out infinite;
+    }
+}
+
 /* ─── Scroll Up Indicator ─── */
 
 .scroll-up {
@@ -382,7 +407,7 @@ a {
     width: clamp(1.3rem, 2.5vmin, 1.6rem);
     height: clamp(2rem, 4.2vmin, 2.8rem);
     border-radius: 999px;
-    border: clamp(2px, 0.25vmin, 5px) solid var(--accent);
+    border: clamp(2px, 0.25vmin, 5px) solid #5c3d2e;
     opacity: 0.75;
     position: fixed;
     left: calc(45vw + 340px);
@@ -402,7 +427,7 @@ a {
     width: clamp(0.25rem, 0.65vmin, 0.45rem);
     height: clamp(0.25rem, 0.65vmin, 0.45rem);
     border-radius: 50%;
-    background: var(--accent);
+    background: #5c3d2e;
     position: absolute;
     top: clamp(0.22rem, 0.55vmin, 0.38rem);
     left: 50%;
@@ -415,6 +440,15 @@ a {
     transform: translateX(-50%) translateY(clamp(0.9rem, 2.4vmin, 1.65rem));
     transition: transform 0.45s cubic-bezier(0.2, 0, 0.4, 1),
                 opacity  0.2s ease;
+}
+
+@media (hover: none) {
+    .scroll-up-dot {
+        bottom: clamp(0.22rem, 0.55vmin, 0.38rem);
+        top: auto;
+        transition: none;
+        animation: scroll-dot-up 1.8s ease-in-out infinite;
+    }
 }
 
 /* ─── Latest Work ─── */
@@ -877,6 +911,7 @@ a {
     .top-bar {
         margin-bottom: 1.2rem;
         font-size: 0.78rem;
+        padding-inline: calc(2vw + 1.25rem);
     }
 
     .profile-holder {
