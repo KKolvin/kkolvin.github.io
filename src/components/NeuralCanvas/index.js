@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import Delaunator from 'delaunator';
 
-// Default (far from cursor): dusty rose matching --pink-deep (#dfa8c8 = 223,168,200)
-// Vortex  (near cursor): mint green accent (#6a9fa0 = 106,159,160)    
-const C_DEFAULT = [223, 168, 200];
-const C_VORTEX  = [106, 159, 160];
+// Default (far from cursor): mint green accent (#6a9fa0 = 106,159,160)
+// Vortex  (near cursor): dusty rose matching --pink-deep (#dfa8c8 = 223,168,200)
+const C_DEFAULT = [106, 159, 160];
+const C_VORTEX  = [223, 168, 200];
 
 // Poisson disk minimum distance — controls spatial density uniformly across all screens.
 // r ≈ sqrt(2 * CELL_AREA / sqrt(3)); with CELL_AREA = 11000 → r ≈ 113px
@@ -241,15 +241,34 @@ function NeuralCanvas() {
         };
         const onLeave = () => { rawMouse.x = -9999; rawMouse.y = -9999; };
 
+        const onTouchMove = (e) => {
+            const t = e.touches[0];
+            if (!t) return;
+            if (e.target.closest(BLOCK)) {
+                rawMouse.x = -9999;
+                rawMouse.y = -9999;
+            } else {
+                rawMouse.x = t.clientX;
+                rawMouse.y = t.clientY;
+            }
+        };
+        const onTouchEnd = () => { rawMouse.x = -9999; rawMouse.y = -9999; };
+
         window.addEventListener('resize', onResize);
         window.addEventListener('mousemove', onMove);
         document.addEventListener('mouseleave', onLeave);
+        window.addEventListener('touchmove', onTouchMove, { passive: true });
+        window.addEventListener('touchend', onTouchEnd);
+        window.addEventListener('touchcancel', onTouchEnd);
 
         return () => {
             cancelAnimationFrame(animId);
             window.removeEventListener('resize', onResize);
             window.removeEventListener('mousemove', onMove);
             document.removeEventListener('mouseleave', onLeave);
+            window.removeEventListener('touchmove', onTouchMove);
+            window.removeEventListener('touchend', onTouchEnd);
+            window.removeEventListener('touchcancel', onTouchEnd);
         };
     }, []);
 

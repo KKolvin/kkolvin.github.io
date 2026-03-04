@@ -1,9 +1,17 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { ResumeModal } from '../components';
 
 function WorkPage() {
     const [resumeOpen, setResumeOpen] = useState(false);
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state?.scrollTo) {
+            const el = document.getElementById(location.state.scrollTo);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [location.state]);
 
     return (
         <>
@@ -34,7 +42,7 @@ function WorkPage() {
                 </Link>
             </div>
 
-            <div className="work-section">
+            <div id="work-section" className="work-section">
                 <h2>VIEW MY RESUME</h2>
                 <div className="work-grid">
                     <button

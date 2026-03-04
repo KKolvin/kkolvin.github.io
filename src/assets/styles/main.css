@@ -893,17 +893,13 @@ a {
         max-width: 70vw;
     }
 
-    h1 {
-        font-size: clamp(2rem, 10vw, 6rem);
-    }
-
     .profile-heading {
-        width: 90vw;
+        font-size: clamp(1.5rem, 13.1vw, 6rem);
         white-space: nowrap;
+        width: fit-content;
     }
 
     #first, #second {
-        width: 100%;
         padding: 0;
     }
 

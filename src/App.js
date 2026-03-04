@@ -62,7 +62,7 @@ function App() {
                         </span>
                         <div className="nav-dropdown">
                             <Link className="nav-dropdown-item" to="/">Home</Link>
-                            <Link className="nav-dropdown-item" to="/work">Work</Link>
+                            <Link className="nav-dropdown-item" to="/work" state={{ scrollTo: 'work-section' }}>Work</Link>
                         </div>
                     </nav>
                     <button className="top-bar-link" onClick={() => setContactOpen(true)}>Get in touch -&gt;</button>
