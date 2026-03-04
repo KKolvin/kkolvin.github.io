@@ -65,7 +65,7 @@ a {
     align-items: center;
     background-color: #5c3d2eb8;
     color: #fff;
-    padding: 0.8rem 7.8vw;
+    padding: 13px 7.8vw;
     font-size: 0.9rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -92,6 +92,75 @@ a {
 
 .nav-hover:hover::after {
     width: 100%;
+}
+
+/* ─── Hamburger nav ─── */
+
+.nav-menu {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.nav-hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 4px 2px;
+}
+
+.nav-hamburger span {
+    display: block;
+    width: 20px;
+    height: 3px;
+    background: #fff;
+    border-radius: 1px;
+    flex-shrink: 0;
+    transition: background 0.2s ease;
+}
+
+.nav-menu:hover .nav-hamburger span {
+    background: #6cedc6;
+}
+
+.nav-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    background: #3a2418e6;
+    border-radius: 8px;
+    padding: 16px 0 6px;
+    min-width: 120px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.nav-menu:hover .nav-dropdown {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.nav-dropdown-item {
+    padding: 8px 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.nav-dropdown-item:hover {
+    color: #6cedc6;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .top-bar-link,
@@ -825,11 +894,12 @@ a {
     }
 
     h1 {
-        font-size: clamp(2.5rem, 12vw, 6rem);
+        font-size: clamp(2rem, 10vw, 6rem);
     }
 
     .profile-heading {
         width: 90vw;
+        white-space: nowrap;
     }
 
     #first, #second {

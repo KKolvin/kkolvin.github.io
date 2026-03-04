@@ -56,7 +56,15 @@ function App() {
             <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
             <main className="site-shell">
                 <header className="top-bar">
-                    <Link className="top-bar-label" to="/">Home</Link>
+                    <nav className="nav-menu">
+                        <span className="nav-hamburger" aria-label="Menu">
+                            <span /><span /><span />
+                        </span>
+                        <div className="nav-dropdown">
+                            <Link className="nav-dropdown-item" to="/">Home</Link>
+                            <Link className="nav-dropdown-item" to="/work">Work</Link>
+                        </div>
+                    </nav>
                     <button className="top-bar-link" onClick={() => setContactOpen(true)}>Get in touch -&gt;</button>
                 </header>
 
