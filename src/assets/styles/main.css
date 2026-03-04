@@ -894,7 +894,7 @@ a {
     }
 
     .profile-heading {
-        font-size: clamp(1.5rem, 13.1vw, 6rem);
+        font-size: clamp(1.5rem, 14.75vw, 6rem);
         white-space: nowrap;
         width: fit-content;
     }
