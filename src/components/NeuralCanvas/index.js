@@ -232,7 +232,7 @@ function NeuralCanvas() {
         const onModalOpen  = () => { paused = true;  cancelAnimationFrame(animId); };
         const onModalClose = () => { if (paused) { paused = false; animId = requestAnimationFrame(draw); } };
 
-        const BLOCK   = 'h1, h2, h3, h4, h5, h6, p, img, .profile-background, .work-card, .top-bar, .scroll-down, .scroll-up, .top-bar-label, .work-intro-tags';
+        const BLOCK   = 'h1, h2, h3, h4, h5, h6, p, img, .work-card, .top-bar, .scroll-down, .scroll-up, .top-bar-label, .work-intro-heading';
         const onResize = () => resize();
         const onMove   = (e) => {
             if (e.target.closest(BLOCK)) {
