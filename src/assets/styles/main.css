@@ -960,6 +960,10 @@ a {
         font-size: clamp(1.7rem, 7.5vw, 2.6rem);
     }
 
+    .playlist-grid {
+        grid-template-columns: 1fr;
+    }
+
     .profile-pic,
     .profile-background,
     .profile-heading {
