@@ -118,27 +118,35 @@ export default function MusicPlayer({ playlist = DEFAULT_PLAYLIST }) {
 
     const handlePointerDown = (e) => {
         if (!canStartDrag(e.target)) return;
+        e.preventDefault();
         setIsDragging(true);
         dragStartRef.current = { x: e.clientX - position.x, y: e.clientY - position.y };
+        e.currentTarget.setPointerCapture(e.pointerId);
     };
 
     useEffect(() => {
         if (!isDragging) return;
 
         const handlePointerMove = (e) => {
+            e.preventDefault();
             setPosition({
                 x: e.clientX - dragStartRef.current.x,
                 y: e.clientY - dragStartRef.current.y,
             });
         };
 
-        const handlePointerUp = () => setIsDragging(false);
+        const handlePointerUp = (e) => {
+            widgetRef.current?.releasePointerCapture?.(e.pointerId);
+            setIsDragging(false);
+        };
 
-        window.addEventListener('pointermove', handlePointerMove);
+        window.addEventListener('pointermove', handlePointerMove, { passive: false });
         window.addEventListener('pointerup', handlePointerUp);
+        window.addEventListener('pointercancel', handlePointerUp);
         return () => {
             window.removeEventListener('pointermove', handlePointerMove);
             window.removeEventListener('pointerup', handlePointerUp);
+            window.removeEventListener('pointercancel', handlePointerUp);
         };
     }, [isDragging]);
 

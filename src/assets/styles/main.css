@@ -949,7 +949,7 @@ a {
     }
 
     .work-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
     }
 
     .work-intro {
@@ -983,6 +983,7 @@ a {
     z-index: 200;
     cursor: move;
     user-select: none;
+    touch-action: none;
     animation: fadeIn 0.3s ease;
 }
 
