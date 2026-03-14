@@ -14,9 +14,6 @@ function PlaylistPage() {
         <section className="playlist-page">
             <div id="playlist-intro" className="playlist-intro">
                 <h2 className="playlist-heading">View My Playlist</h2>
-                <Link className="scroll-up scroll-up--playlist" to="/" aria-label="Go to home">
-                    <span className="scroll-up-dot" aria-hidden="true" />
-                </Link>
             </div>
             <div id="playlist-section" className="playlist-section">
                 <div className="playlist-grid">
@@ -60,6 +57,9 @@ function PlaylistPage() {
                         );
                     })}
                 </div>
+                <Link className="scroll-up scroll-up--playlist" to="/" aria-label="Go to home">
+                    <span className="scroll-up-dot" aria-hidden="true" />
+                </Link>
             </div>
         </section>
     );

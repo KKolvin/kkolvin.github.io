@@ -86,12 +86,26 @@ export default function MusicPlayer({ playlist = DEFAULT_PLAYLIST }) {
         audio.addEventListener('loadedmetadata', updateProgress);
         audio.addEventListener('ended', handleEnded);
 
+        let resumeHandler = null;
         const playPromise = audio.play();
         if (playPromise !== undefined) {
-            playPromise.catch(() => setIsPlaying(false));
+            playPromise.catch(() => {
+                setIsPlaying(false);
+                resumeHandler = () => {
+                    audio.play().then(() => setIsPlaying(true)).catch(() => {});
+                };
+                document.addEventListener('click', resumeHandler, { once: true });
+                document.addEventListener('touchstart', resumeHandler, { once: true });
+                document.addEventListener('keydown', resumeHandler, { once: true });
+            });
         }
 
         return () => {
+            if (resumeHandler) {
+                document.removeEventListener('click', resumeHandler);
+                document.removeEventListener('touchstart', resumeHandler);
+                document.removeEventListener('keydown', resumeHandler);
+            }
             audio.pause();
             audio.removeEventListener('timeupdate', updateProgress);
             audio.removeEventListener('loadedmetadata', updateProgress);
@@ -99,8 +113,11 @@ export default function MusicPlayer({ playlist = DEFAULT_PLAYLIST }) {
         };
     }, [currentIndex, tracks, playlist]);
 
-    const handleMouseDown = (e) => {
-        if (e.target.closest('.music-player-controls') || e.target.closest('.music-player-progress-wrap')) return;
+    const canStartDrag = (target) =>
+        !target?.closest('.music-player-ctrl') && !target?.closest('.music-player-progress-wrap');
+
+    const handlePointerDown = (e) => {
+        if (!canStartDrag(e.target)) return;
         setIsDragging(true);
         dragStartRef.current = { x: e.clientX - position.x, y: e.clientY - position.y };
     };
@@ -108,20 +125,20 @@ export default function MusicPlayer({ playlist = DEFAULT_PLAYLIST }) {
     useEffect(() => {
         if (!isDragging) return;
 
-        const handleMouseMove = (e) => {
+        const handlePointerMove = (e) => {
             setPosition({
                 x: e.clientX - dragStartRef.current.x,
                 y: e.clientY - dragStartRef.current.y,
             });
         };
 
-        const handleMouseUp = () => setIsDragging(false);
+        const handlePointerUp = () => setIsDragging(false);
 
-        window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mouseup', handleMouseUp);
+        window.addEventListener('pointermove', handlePointerMove);
+        window.addEventListener('pointerup', handlePointerUp);
         return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('pointermove', handlePointerMove);
+            window.removeEventListener('pointerup', handlePointerUp);
         };
     }, [isDragging]);
 
@@ -193,7 +210,7 @@ export default function MusicPlayer({ playlist = DEFAULT_PLAYLIST }) {
             ref={widgetRef}
             className={`music-player-widget${showControls ? ' music-player-widget--show-controls' : ''}`}
             style={{ left: position.x, top: position.y }}
-            onMouseDown={handleMouseDown}
+            onPointerDown={handlePointerDown}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
