@@ -1,0 +1,15 @@
+export const DEFAULT_PLAYLIST = [
+    { src: '/audio/BAYNK - Water.mp3', title: 'Water', artist: 'BAYNK', artwork: '/audio/artwork/BAYNK - Water.jpg' },
+    { src: '/audio/Berlioz - peace.mp3', title: 'peace', artist: 'Berlioz', artwork: '/audio/artwork/Berlioz - peace.jpg' },
+    { src: '/audio/Bop Alloy,Marcus D,Substantial - Jazzmatic.mp3', title: 'Jazzmatic', artist: 'Bop Alloy, Marcus D, Substantial', artwork: '/audio/artwork/Bop Alloy,Marcus D,Substantial - Jazzmatic.jpg' },
+    { src: '/audio/Eddie Higgins - What a Difference the Day Made.flac', title: 'What a Difference the Day Made', artist: 'Eddie Higgins', artwork: '/audio/artwork/Eddie Higgins - What a Difference the Day Made.webp' },
+    { src: '/audio/Eddie Higgins Trio - Again.mp3', title: 'Again', artist: 'Eddie Higgins Trio', artwork: '/audio/artwork/Eddie Higgins Trio - Again.jpg' },
+    { src: '/audio/Joey Pecoraro - To be Happy.mp3', title: 'To be Happy', artist: 'Joey Pecoraro', artwork: '/audio/artwork/Joey Pecoraro - To be Happy.jpg' },
+    { src: '/audio/Mac Demarco - Another One.mp3', title: 'Another One', artist: 'Mac Demarco', artwork: '/audio/artwork/Mac Demarco - Another One.jpg' },
+    { src: '/audio/Mattdeguia - daylight.mp3', title: 'daylight', artist: 'Mattdeguia', artwork: '/audio/artwork/Mattdeguia - daylight.jpg' },
+    { src: "/audio/rainlord. - you n' i.mp3", title: "you n' i", artist: 'rainlord.', artwork: '/audio/artwork/rainlord-you-n-i.jpg' },
+    { src: '/audio/SALES - Trapped in a Club.mp3', title: 'Trapped in a Club', artist: 'SALES', artwork: '/audio/artwork/SALES - Trapped in a Club.jpg' },
+    { src: '/audio/Shin-Ski - Fomalhaut.mp3', title: 'Fomalhaut', artist: 'Shin-Ski', artwork: '/audio/artwork/Shin-Ski - Fomalhaut.jpg' },
+    { src: '/audio/Wntr - luv rain.mp3', title: 'luv rain', artist: 'Wntr', artwork: '/audio/artwork/Wntr - luv rain.jpg' },
+    { src: '/audio/idealism,jinsang - winter bokeh.mp3', title: 'winter bokeh', artist: 'idealism, jinsang', artwork: '/audio/artwork/idealism,jinsang - winter bokeh.jpg' },
+];

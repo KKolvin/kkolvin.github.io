@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext, useCallback } from 'react';
+import { MusicContext } from '../../context/MusicContext';
 
 function getDefaultPosition() {
     return {
@@ -16,12 +17,10 @@ function shuffleArray(arr) {
     return a;
 }
 
-const DEFAULT_PLAYLIST = [
-    { src: '/audio/background.mp3', title: 'Your Song Title', artist: 'Artist Name' },
-    // Add more tracks: { src: '/audio/track2.mp3', title: 'Track 2', artist: 'Artist' },
-];
+import { DEFAULT_PLAYLIST } from '../../data/playlist';
 
 export default function MusicPlayer({ playlist = DEFAULT_PLAYLIST }) {
+    const { playTrackRef, togglePlayRef, setMusicState } = useContext(MusicContext) ?? {};
     const [position, setPosition] = useState(getDefaultPosition);
     const [isDragging, setIsDragging] = useState(false);
     const [isPlaying, setIsPlaying] = useState(true);
@@ -30,13 +29,32 @@ export default function MusicPlayer({ playlist = DEFAULT_PLAYLIST }) {
     const [duration, setDuration] = useState(0);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [shuffledPlaylist, setShuffledPlaylist] = useState(() => shuffleArray(playlist));
+    const [titleOverflows, setTitleOverflows] = useState(false);
 
     const audioRef = useRef(null);
     const dragStartRef = useRef({ x: 0, y: 0 });
     const widgetRef = useRef(null);
+    const trackNameRef = useRef(null);
+    const trackNameMeasureRef = useRef(null);
 
     const tracks = shuffledPlaylist.length > 0 ? shuffledPlaylist : playlist;
     const currentTrack = tracks[currentIndex] || tracks[0];
+
+    const checkTitleOverflow = () => {
+        const container = trackNameRef.current;
+        const measure = trackNameMeasureRef.current;
+        if (!container || !measure || container.clientWidth === 0) return;
+        setTitleOverflows(measure.offsetWidth > container.clientWidth);
+    };
+
+    useEffect(() => {
+        checkTitleOverflow();
+        const container = trackNameRef.current;
+        if (!container) return;
+        const ro = new ResizeObserver(checkTitleOverflow);
+        ro.observe(container);
+        return () => ro.disconnect();
+    }, [currentTrack?.title]);
 
     useEffect(() => {
         if (tracks.length === 0) return;
@@ -44,7 +62,7 @@ export default function MusicPlayer({ playlist = DEFAULT_PLAYLIST }) {
         const track = tracks[currentIndex];
         if (!track) return;
 
-        const audio = new Audio(track.src);
+        const audio = new Audio(encodeURI(track.src));
         audio.loop = false;
         audioRef.current = audio;
 
@@ -133,6 +151,30 @@ export default function MusicPlayer({ playlist = DEFAULT_PLAYLIST }) {
         setProgress(0);
     };
 
+    const playTrack = useCallback((track) => {
+        setCurrentIndex((prev) => {
+            const idx = tracks.findIndex((t) => t.src === track.src);
+            return idx >= 0 ? idx : prev;
+        });
+        setProgress(0);
+        setIsPlaying(true);
+    }, [tracks]);
+
+    useEffect(() => {
+        if (playTrackRef) playTrackRef.current = playTrack;
+        if (togglePlayRef) togglePlayRef.current = togglePlay;
+        return () => {
+            if (playTrackRef) playTrackRef.current = null;
+            if (togglePlayRef) togglePlayRef.current = null;
+        };
+    }, [playTrackRef, togglePlayRef, playTrack, togglePlay]);
+
+    useEffect(() => {
+        if (setMusicState) {
+            setMusicState({ currentTrack, isPlaying });
+        }
+    }, [currentTrack, isPlaying, setMusicState]);
+
     const handleProgressClick = (e) => {
         const audio = audioRef.current;
         if (!audio || !duration) return;
@@ -156,11 +198,20 @@ export default function MusicPlayer({ playlist = DEFAULT_PLAYLIST }) {
             onMouseLeave={() => setIsHovered(false)}
         >
             <div className="music-player-body">
-                <div className="music-player-art" />
+                <div
+                    key={currentTrack?.src ?? currentIndex}
+                    className="music-player-art"
+                    style={currentTrack?.artwork ? { backgroundImage: `url(${encodeURI(currentTrack.artwork)})`, backgroundSize: 'cover' } : undefined}
+                />
                 <div className="music-player-info-wrap">
                     <div className="music-player-info">
-                        <div className="music-player-track-name">
-                            <span className="music-player-marquee"><span>{currentTrack?.title}</span> &nbsp; <span>{currentTrack?.title}</span></span>
+                        <div className="music-player-track-name" ref={trackNameRef}>
+                            <span ref={trackNameMeasureRef} className="music-player-track-name-measure" aria-hidden="true">{currentTrack?.title}</span>
+                            {titleOverflows ? (
+                                <span className="music-player-marquee music-player-marquee--scroll"><span>{currentTrack?.title}</span> &nbsp; <span>{currentTrack?.title}</span></span>
+                            ) : (
+                                <span className="music-player-track-name-static">{currentTrack?.title}</span>
+                            )}
                         </div>
                         <div className="music-player-artist-name">{currentTrack?.artist}</div>
                         <div className="music-player-controls">

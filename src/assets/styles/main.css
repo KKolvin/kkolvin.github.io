@@ -27,6 +27,10 @@ body {
     background-size: 28px 28px;
 }
 
+#root {
+    min-height: 100vh;
+}
+
 h1 {
     text-align: center;
     font-family: 'Montserrat', sans-serif;
@@ -1016,6 +1020,26 @@ a {
     overflow: hidden;
     margin-bottom: 0;
     flex-shrink: 0;
+    position: relative;
+}
+
+.music-player-track-name-measure {
+    position: absolute;
+    visibility: hidden;
+    white-space: nowrap;
+    font-size: clamp(0.75rem, 2.2vw, 0.95rem);
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.music-player-track-name-static {
+    font-size: clamp(0.75rem, 2.2vw, 0.95rem);
+    font-weight: 600;
+    color: #131313;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
 }
 
 .music-player-widget--show-controls .music-player-track-name,
@@ -1051,6 +1075,9 @@ a {
     display: inline-block;
     white-space: nowrap;
     padding-right: 2em;
+}
+
+.music-player-marquee--scroll {
     animation: music-player-scroll 10s linear infinite;
 }
 
@@ -1149,4 +1176,150 @@ a {
     background: #c9302c;
     border-radius: 2px;
     transition: width 0.05s linear;
+}
+
+/* ─── Playlist Page ─── */
+
+.playlist-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2rem 2rem;
+    position: relative;
+    animation: fadeInUp 0.7s ease both 0.05s;
+}
+
+.playlist-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2rem, 5.5vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #131313;
+    text-align: center;
+}
+
+.scroll-up--playlist {
+    position: relative;
+    transform: none;
+    left: auto;
+    top: auto;
+    margin-top: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.playlist-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 2rem 2rem 4rem;
+}
+
+.playlist-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.playlist-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1.5px solid #5c3d2e;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(4px);
+    transition: border-color 0.25s ease, transform 0.25s ease;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+}
+
+.playlist-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.playlist-card-art {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    border-radius: 8px;
+    background: #e8e8e8;
+}
+
+.playlist-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+    flex: 1;
+}
+
+.playlist-card-play-btn {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #5c3d2e;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.playlist-card:hover .playlist-card-play-btn {
+    opacity: 1;
+}
+
+.playlist-card-play-btn:hover {
+    background: var(--accent);
+}
+
+.playlist-card-icon-play,
+.playlist-card-icon-pause {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: currentColor;
+}
+
+.playlist-card-icon-play {
+    mask: url("../icons/icon-play.svg") center/contain no-repeat;
+    -webkit-mask: url("../icons/icon-play.svg") center/contain no-repeat;
+}
+
+.playlist-card-icon-pause {
+    mask: url("../icons/icon-pause.svg") center/contain no-repeat;
+    -webkit-mask: url("../icons/icon-pause.svg") center/contain no-repeat;
+}
+
+.playlist-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #131313;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.playlist-card-artist {
+    font-size: 0.85rem;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
