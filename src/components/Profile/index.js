@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import profilePic from '../../assets/img/me-bright.png';
 import '../../assets/styles/main.css';
 
-const SUBTITLE = 'AI Infra · High-Performance Computing · Developer';
+const SUBTITLE = 'ML · AI Infra · High-Performance Computing · Developer';
 
 function Profile() {
     const [typed, setTyped] = useState('');

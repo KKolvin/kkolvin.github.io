@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Profile, NeuralCanvas, ContactModal } from './components';
+import { Profile, NeuralCanvas, ContactModal, MusicPlayer } from './components';
 import WorkPage from './pages/WorkPage';
 import './assets/styles/main.css';
 
@@ -54,6 +54,7 @@ function App() {
         <HashRouter>
             <NeuralCanvas />
             <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
+            <MusicPlayer />
             <main className="site-shell">
                 <header className="top-bar">
                     <nav className="nav-menu">
